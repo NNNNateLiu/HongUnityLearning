@@ -1,4 +1,6 @@
 //Library 库文件
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,11 +17,13 @@ public class WasdController : MonoBehaviour
     public int C;
 
     public float Speed = 1.2f;
+
+    public Transform playerStartPoint;
     
     // Start is called before the first frame update
     void Start()
     {
-
+        gameObject.transform.position = playerStartPoint.position;
     }
 
     // Update is called once per frame
@@ -90,8 +94,19 @@ public class WasdController : MonoBehaviour
         Debug.Log("Max is " + Max);
         return Max;
     }
+
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Stone")
+        {
+            gameObject.transform.position = playerStartPoint.position;
+        }
+    }
     
-    //HomeWork Week2
-    //尝试实现陨石循环移动
-    //移动规则：从屏幕左侧StartingPoint出发，按照一定的速度Spped移动，一旦运动到屏幕右侧EndPoint，陨石传送回StartingPoint，继续移动
+    //Homework3
+    //1，把碰撞检测，写在'Stone'上面，当stone检测到玩家，把玩家坐标设置为玩家起点坐标
+    //2，使用TriggerBox做碰撞检测，而不是Collision
+    //（选作）3，使用TriggerBox，当火箭运动到屏幕上边缘时，回到起点
+    //（选作）4，给玩家添加'生命值'变量，玩家有三点生命值，每碰到一次stone扣一点，扣没，游戏结束（销毁玩家）
 }
