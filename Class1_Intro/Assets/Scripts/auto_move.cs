@@ -10,7 +10,6 @@ public class auto_move : MonoBehaviour
     public Transform StartPoint;
     public Transform EndPoint;
     public float Speed = 0.002f;
-
     public bool isLeftMovingStone;
 
     // Start is called before the first frame update
@@ -41,7 +40,6 @@ public class auto_move : MonoBehaviour
                 gameObject.transform.position = gameObject.transform.position + Vector3.left * Speed;
                 if (gameObject.transform.position.x < StartPoint.position.x)
                 {
-                    print("smaller");
                     gameObject.transform.position = EndPoint.position;
                 }
             }
@@ -58,12 +56,13 @@ public class auto_move : MonoBehaviour
                 // check if stone is at the right of the endpoint, after each move
                 if (gameObject.transform.position.x > EndPoint.position.x)
                 {
-                    //set stone position back to startpoint
-                    print("bigger");
+                    //set stone position back to startpoint   
                     gameObject.transform.position = StartPoint.position;
                 }
             }
         }
+
+        
     }
 }
 
