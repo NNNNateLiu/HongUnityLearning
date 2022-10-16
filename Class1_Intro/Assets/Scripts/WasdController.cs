@@ -19,15 +19,21 @@ public class WasdController : MonoBehaviour
 
     public int C;
     */
+    
     public float Speed = 1.2f;
     public Transform playerStartPoint;
     public int life = 3;
     public GameObject Life_1, Life_2, Life_3;
+    public int score = 0;
+    
+    public GameObject art;
+    public UIManager uiManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.transform.position = playerStartPoint.position;
+        Initialization();
+        
     }
 
     // Update is called once per frame
@@ -121,6 +127,10 @@ public class WasdController : MonoBehaviour
             Debug.Log("win!");
             //set player back to startpoint
             gameObject.transform.position = playerStartPoint.position;
+            //player gain 1 score
+            score ++;
+            //Update txt_Score
+            uiManager.UpdateScore(score);
         }
     }
 
@@ -128,45 +138,45 @@ public class WasdController : MonoBehaviour
     public void Life()
     {
         life--;
-        if (life == 3)
-        {
-            Life_1.SetActive(true);
-            Life_2.SetActive(true);
-            Life_3.SetActive(true);
-            Debug.Log("life=3");
-        }
-
         if (life == 2)
         {
-            Life_1.SetActive(true);
-            Life_2.SetActive(true);
-            Life_3.SetActive(false);
+            uiManager.img_Life_3.color = Color.black;
             Debug.Log("life=2");
         }
 
         if (life == 1)
         {
-            Life_1.SetActive(true);
-            Life_2.SetActive(false);
-            Life_3.SetActive(false);
+            uiManager.img_Life_2.color = Color.black;
             Debug.Log("life=1");
         }
 
         if (life < 1)
         {
-            Life_1.SetActive(false);
-            Life_2.SetActive(false);
-            Life_3.SetActive(false);
+            uiManager.img_Life_1.color = Color.black;
             Debug.Log("dead");
-            Destroy(gameObject);
+            //update txt_Score to game over
+            uiManager.txt_Score.text = "Game Over!";
+            //activate restart button
+            uiManager.but_Restart.SetActive(true);
+            //make player 'art' disable
+            art.SetActive(false);
         }
     }
 
-
-    //Homework3
-    //1，把碰撞检测，写在'Stone'上面，当stone检测到玩家，把玩家坐标设置为玩家起点坐标
-    //2，使用TriggerBox做碰撞检测，而不是Collision
-    //（选作）3，使用TriggerBox，当火箭运动到屏幕上边缘时，回到起点
-    //（选作）4，给玩家添加'生命值'变量，玩家有三点生命值，每碰到一次stone扣一点，扣没，游戏结束（销毁玩家）
+    public void Initialization()
+    {
+        gameObject.transform.position = playerStartPoint.position;
+        uiManager.UpdateScore(0);
+        art.SetActive(true);
+        uiManager.img_Life_1.color = Color.white;
+        uiManager.img_Life_2.color = Color.white;
+        uiManager.img_Life_3.color = Color.white;
+        uiManager.but_Restart.SetActive(false);
+        life = 3;
+        score = 0;
+    }
+    
+    //Homework4
+    //结合前三节课所学（input、Collider&Trigger、UI）给Space Race做一个特性
 
 }
