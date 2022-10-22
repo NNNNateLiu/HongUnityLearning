@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Block
   - Stone
+  - Special_Stone
+  - Add_Life
+  - Add_Point
+  - Shield
+  - StoneGroup
   layers:
   - Default
   - TransparentFX

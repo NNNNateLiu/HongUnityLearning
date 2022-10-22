@@ -4,13 +4,17 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.MPE;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class auto_move : MonoBehaviour
 {
     public Transform StartPoint;
     public Transform EndPoint;
-    public float Speed = 0.002f;
-    public bool isLeftMovingStone;
+    private float Speed = 0.003f;
+    public bool isLeftMovingStone = false;
+    public float LowSpeedTime = 0f;
+    public UIManager uiManager;
+    public int amount = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -62,7 +66,72 @@ public class auto_move : MonoBehaviour
             }
         }
 
+
+
+        //Lowspeed effect
+        if (LowSpeedTime > 0)
+            //触发减速效果
+        {
+            LowSpeedTime -= Time.deltaTime;
+            Speed =0.005f;
+            Debug.Log("LOWspeed");
+
+        }
+        else
+        //效果结束
+        {
+
+            Speed =0.02f;
+            Debug.Log("NormalSpeed");
+
+        }
+
+
+        //amount
+        if(amount < 1 )
+        {
+            uiManager.but_Lowspeed.SetActive(false);
+        }
+    }
+
+
+    public void Lowspeed()
+    {
+        Debug.Log("开始减速");
+        LowSpeedTime = 4f;
+        //效果持续时间
+        if (LowSpeedTime < 0)
+        {
+            LowSpeedTime = 0f;
+        }
         
+        amount--;
+        //Update txt_amount
+        uiManager.UpdateSkill(amount);
+
+    
+      
+        //uiManager.but_Lowspeed.SetActive(false);
+        /*
+         
+        if (LowSpeedTime < 0)
+        {
+            LowSpeedTime = 5f;
+            Speed = 0.01f;
+            Debug.Log("LOWspeed");
+        }
+        */
+
+    }
+
+
+    public void SkillInitialization()
+    {
+    
+        //skill
+        uiManager.but_Lowspeed.SetActive(true);
+       
+        amount = 3;
     }
 }
 
