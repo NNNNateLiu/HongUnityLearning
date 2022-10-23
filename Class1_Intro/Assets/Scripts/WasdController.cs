@@ -35,6 +35,8 @@ public class WasdController : MonoBehaviour
     public Component[] colliders;
     public UIManager uiManager;
 
+    private int i;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -91,7 +93,6 @@ public class WasdController : MonoBehaviour
         //regenerate Shield
         if (Shield.activeSelf is false )
         {
-            
             generateTime -= Time.deltaTime;
             if (generateTime < 0)
             {
@@ -109,9 +110,36 @@ public class WasdController : MonoBehaviour
             defendTime -= Time.deltaTime;
             Stone = GameObject.FindGameObjectWithTag("StoneGroup");
             colliders = Stone.GetComponentsInChildren<BoxCollider2D>();
+            Debug.Log("count: " + colliders.Length);
+            //foreach, for, while
+            //i = 0,1,2,3,4,5
+            
+            //For 循环
+            /*
+            for (int i = 0; i <= colliders.Length; i++)
+            {
+                colliders[i].GetComponent<BoxCollider2D>().enabled = false;
+                
+                Debug.Log("i = " + i);
+                Debug.Log(colliders[i].name);
+        
+            }*/
+            
+            
+            //While 循环
+            /*
+            while (i < colliders.Length)
+            {
+                colliders[i].GetComponent<BoxCollider2D>().enabled = false;
+                i++;
+            }
+            */
+            
+            /*
             foreach (BoxCollider2D collider in colliders)
                 collider.enabled = false;//禁用碰撞组件
             Debug.Log("无敌模式");
+            */
         }
         else
         {
