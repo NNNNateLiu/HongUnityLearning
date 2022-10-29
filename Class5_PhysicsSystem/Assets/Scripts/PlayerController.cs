@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform bulletPoint;
 
-    public float speed;
+    public float speed ;
     public Vector2 Velocity;
     private void Start()
     {
