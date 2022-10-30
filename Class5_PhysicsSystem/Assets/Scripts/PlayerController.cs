@@ -11,9 +11,12 @@ public class PlayerController : MonoBehaviour
 
     public float speed ;
     public Vector2 Velocity;
+
+    private Animator animator;
     private void Start()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     
@@ -50,12 +53,23 @@ public class PlayerController : MonoBehaviour
             //Generate a bullet
             Instantiate(bulletPrefab, bulletPoint.position, Quaternion.identity);
         }
+        
+        //check if move key is pressed, then play animations
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+        {
+            animator.SetBool("isWalking",true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+        {
+            animator.SetBool("isWalking",false);
+        }
     }
 }
 
 /*
-HW5: 
-给Bullet编写脚本需涵盖一下功能：
-1，当子弹被生成的时候，需要沿Y轴正方向运动（子弹带有初速度，用Rigidbody2D实现）
-2，当子弹打中"敌人"（collider进行碰撞检测）的时候，销毁敌人和子弹
+HW6: 
+给玩家创建动画状态机AnimatorController：
+1，实现三种状态间来回切换（移动Moving,站立Idle,开火Fire）
+2，选择一种动画方式制作动画片段 Animation Clip（帧动画or关键帧动画）
 */
