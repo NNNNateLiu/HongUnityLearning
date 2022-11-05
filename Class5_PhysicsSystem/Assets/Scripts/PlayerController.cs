@@ -11,12 +11,16 @@ public class PlayerController : MonoBehaviour
 
     public float speed ;
     public Vector2 Velocity;
-
+    public float Timer;
+    public float FireRate;
     private Animator animator;
+
+
     private void Start()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        Timer = FireRate;
     }
 
     
@@ -48,22 +52,54 @@ public class PlayerController : MonoBehaviour
             //rb2d.velocity = Vector2.left * speed;
         }
 
+        //Space key is pressed, generate bullet&play animation: Fire
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //Generate a bullet
             Instantiate(bulletPrefab, bulletPoint.position, Quaternion.identity);
+            animator.SetBool("Is Firing", true);
         }
-        
-        //check if move key is pressed, then play animations
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+        //Continuous firing
+        if (Input.GetKey(KeyCode.Space))
         {
-            animator.SetBool("isWalking",true);
+            Timer -= Time.deltaTime;
+            if (Timer < 0)
+            {
+                Timer = FireRate;
+                Instantiate(bulletPrefab, bulletPoint.position, Quaternion.identity);
+            }
+            //Generate bullets
         }
 
-        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+        //Space key is not pressed, keep animation: Idle
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            animator.SetBool("isWalking",false);
+            animator.SetBool("Is Firing", false);
         }
+
+        //move key is pressed, play animation: Move
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+        {
+            animator.SetBool("Is Moving",true);
+            //Debug.Log("开始移动");
+        }
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))
+        {
+            animator.SetBool("Is Moving", true);
+            //Debug.Log("开始移动");
+        }
+
+        //move key is not pressed, keep animation: Idle
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D)) 
+        {
+            animator.SetBool("Is Moving",false);
+        }
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S))
+        {
+            animator.SetBool("Is Moving", false);
+        }
+
+
     }
 }
 
