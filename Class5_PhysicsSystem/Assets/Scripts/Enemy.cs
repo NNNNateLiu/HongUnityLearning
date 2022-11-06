@@ -16,8 +16,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         Timer = FireRate;
-
-
+        GameManager.instance.enemyInScene.Add(gameObject);
     }
 
     // Update is called once per frame

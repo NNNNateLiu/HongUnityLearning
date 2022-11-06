@@ -7,12 +7,13 @@ public class Bullet : MonoBehaviour
     private Rigidbody2D rb2d;
     public float speed;
     public bool isEnemeyBullet = false;
+    //private GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
-
+        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void Update()
@@ -47,7 +48,13 @@ public class Bullet : MonoBehaviour
             if (col.gameObject.tag == "Enemy")
             {
                 Debug.Log("hit the enemy");
-                //destry bullet & enemy
+                //destroy bullet & enemy
+                //gameManager.enemyInScene.Remove(col.gameObject);
+                //gameManager.CheckCanProceedToNextLevel();
+                
+                GameManager.instance.enemyInScene.Remove(col.gameObject);
+                GameManager.instance.CheckCanProceedToNextLevel();
+                
                 Destroy(gameObject);
                 Destroy(col.gameObject);
             }
