@@ -12,6 +12,8 @@ public class PickUp : MonoBehaviour
     public int scriptIntVar;
     public Flowchart flowchartTest;
 
+    public GameObject currentTouchingItem;
+
     private bool canTalk;
 
     private void Start()
@@ -21,23 +23,54 @@ public class PickUp : MonoBehaviour
         flowchartTest.SetIntegerVariable("flowchartIntVar", scriptIntVar);
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        dialogIcon.SetActive(true);
-        canTalk = true;
+        //dialogIcon.SetActive(true);
+        //canTalk = true;
+        if (other.CompareTag("item"))
+        {
+            Debug.Log("Touch " + other.GetComponent<Item>().itemName);
+            other.GetComponent<Item>().canBePickedUp = true;
+            other.GetComponent<Item>().pickedUpIcon.SetActive(true);
+            currentTouchingItem = other.gameObject;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        dialogIcon.SetActive(false);
-        canTalk = false;
+        //dialogIcon.SetActive(false);
+        //canTalk = false;
+        if (other.CompareTag("item"))
+        {
+            Debug.Log("Not Touch " + other.GetComponent<Item>().itemName);
+            other.GetComponent<Item>().canBePickedUp = false;
+            other.GetComponent<Item>().pickedUpIcon.SetActive(false);
+            currentTouchingItem = null;
+        }
     }
 
     private void Update()
     {
+        /*
         if (canTalk && Input.GetKeyDown(KeyCode.E))
         {
             flowchart.SetActive(true);
         }
+        */
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (currentTouchingItem == null)
+            {
+                
+            }
+            else
+            {
+                if (currentTouchingItem.GetComponent<Item>().canBePickedUp)
+                {
+                    currentTouchingItem.GetComponent<Item>().OnItemPickedUp();
+                }
+            }
+        }
+        
     }
 }
